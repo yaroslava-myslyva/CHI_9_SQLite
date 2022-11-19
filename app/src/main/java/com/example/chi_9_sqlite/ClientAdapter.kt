@@ -23,7 +23,7 @@ class CustomerAdapter : RecyclerView.Adapter<CustomerAdapter.CustomerHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomerHolder {
-        val binding = com.example.chi_9_sqlite.databinding.CustomerItemFirstBinding.inflate(
+        val binding = CustomerItemFirstBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
         )
