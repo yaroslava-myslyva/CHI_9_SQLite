@@ -26,7 +26,7 @@ class DataBaseHelper(context: Context) : SQLiteOpenHelper(
 
         val createOrdersSql = "CREATE TABLE ${Order.TABLE} (" +
                 Order.ID + " INTEGER PRIMARY KEY, " +
-                Order.CLIENT_ID + " INTEGER NOT NULL, FOREIGN KEY (${Order.CLIENT_ID}) REFERENCES ${Customer.TABLE} (${Customer.ID}) ON DELETE CASCADE ON UPDATE CASCADE);"
+                Order.CUSTOMER_ID + " INTEGER NOT NULL, FOREIGN KEY (${Order.CUSTOMER_ID}) REFERENCES ${Customer.TABLE} (${Customer.ID}) ON DELETE CASCADE ON UPDATE CASCADE);"
         db?.execSQL(createOrdersSql)
         Log.d("ttt", createOrdersSql)
 

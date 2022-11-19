@@ -7,6 +7,7 @@ import com.example.chi_9_sqlite.data.Book
 import com.example.chi_9_sqlite.data.Customer
 import com.example.chi_9_sqlite.data.Order
 import com.example.chi_9_sqlite.data.OrderBook
+import com.example.chi_9_sqlite.data.CustomersBooks
 
 class DBManager(context: Context) {
 
@@ -33,7 +34,7 @@ class DBManager(context: Context) {
         orders.forEach { order ->
             cv.apply {
                 put(Order.ID, order.id)
-                put(Order.CLIENT_ID, order.clientId)
+                put(Order.CUSTOMER_ID, order.customerId)
             }
             db.insert(Order.TABLE, null, cv)
             cv.clear()
@@ -93,6 +94,43 @@ class DBManager(context: Context) {
         return emptyList()
     }
 
+    //SELECT name, title, author FROM Books b
+    // INNER JOIN OrderBook ob ON b._id = ob._id_book
+    // INNER JOIN Orders o ON o._id = ob._id_order
+    // INNER JOIN Clients c ON o.client = c._id
+
+    fun fetchJoinedData() :List<CustomersBooks>{
+        val db = dataBaseHelper.readableDatabase
+        val joinQuery = "SELECT ${Customer.NAME}, ${Book.TITLE}, ${Book.AUTHOR} " +
+                "FROM ${Book.TABLE} b " +
+                "INNER JOIN ${OrderBook.TABLE} ob ON b.${Book.ID} = ob.${OrderBook.BOOK_ID} " +
+                "INNER JOIN ${Order.TABLE} o ON o.${Order.ID} = ob.${OrderBook.ORDER_ID} " +
+                "INNER JOIN ${Customer.TABLE} c ON o.${Order.CUSTOMER_ID} = c.${Customer.ID}"
+        val cursor = db.rawQuery(joinQuery, null)
+
+        if (cursor != null && cursor.count > 0) {
+            val customersBooks = ArrayList<CustomersBooks>(cursor.count)
+            cursor.moveToFirst()
+            do {
+               var index = cursor.getColumnIndex(CustomersBooks.NAME)
+                val name = cursor.getString(index)
+
+                index = cursor.getColumnIndex(CustomersBooks.TITLE)
+                val title = cursor.getString(index)
+
+                index = cursor.getColumnIndex(CustomersBooks.AUTHOR)
+                val author = cursor.getString(index)
+
+                customersBooks.add(CustomersBooks(name, title, author))
+            } while (cursor.moveToNext())
+
+            cursor.close()
+            db.close()
+            return customersBooks
+        }
+        db.close()
+        return emptyList()
+    }
     fun deleteAll() {
         val db = dataBaseHelper.writableDatabase
         val a = db.delete(Book.TABLE, null, null)

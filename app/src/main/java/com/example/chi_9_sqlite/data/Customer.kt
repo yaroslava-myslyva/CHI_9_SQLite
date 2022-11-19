@@ -6,7 +6,7 @@ data class Customer(
 ) {
     companion object {
 
-        const val TABLE = "Clients"
+        const val TABLE = "Customers"
         const val ID = "_id"
         const val NAME = "name"
     }

@@ -5,4 +5,5 @@
     <string name="delete_all">delete all</string>
     <string name="view_customers">view customers</string>
     <string name="tv_name_customers_list">Customers list</string>
+    <string name="tv_name_cb_list">Customer\'s books list</string>
 </resources>
