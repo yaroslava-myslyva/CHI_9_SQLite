@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.chi_9_sqlite.data.Book
-import com.example.chi_9_sqlite.data.Client
+import com.example.chi_9_sqlite.data.Customer
 import com.example.chi_9_sqlite.data.Order
 import com.example.chi_9_sqlite.data.OrderBook
 
@@ -19,14 +19,14 @@ class DataBaseHelper(context: Context) : SQLiteOpenHelper(
                 Book.AUTHOR + " TEXT NOT NULL);"
         db?.execSQL(createBooksSql)
 
-        val createClientsSql = "CREATE TABLE ${Client.TABLE} (" +
-                Client.ID + " INTEGER PRIMARY KEY, " +
-                Client.NAME + " TEXT NOT NULL);"
+        val createClientsSql = "CREATE TABLE ${Customer.TABLE} (" +
+                Customer.ID + " INTEGER PRIMARY KEY, " +
+                Customer.NAME + " TEXT NOT NULL);"
         db?.execSQL(createClientsSql)
 
         val createOrdersSql = "CREATE TABLE ${Order.TABLE} (" +
                 Order.ID + " INTEGER PRIMARY KEY, " +
-                Order.CLIENT_ID + " INTEGER NOT NULL, FOREIGN KEY (${Order.CLIENT_ID}) REFERENCES ${Client.TABLE} (${Client.ID}) ON DELETE CASCADE ON UPDATE CASCADE);"
+                Order.CLIENT_ID + " INTEGER NOT NULL, FOREIGN KEY (${Order.CLIENT_ID}) REFERENCES ${Customer.TABLE} (${Customer.ID}) ON DELETE CASCADE ON UPDATE CASCADE);"
         db?.execSQL(createOrdersSql)
         Log.d("ttt", createOrdersSql)
 
@@ -41,7 +41,7 @@ class DataBaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS ${Client.TABLE};")
+        db?.execSQL("DROP TABLE IF EXISTS ${Customer.TABLE};")
         db?.execSQL("DROP TABLE IF EXISTS ${Order.TABLE};")
         db?.execSQL("DROP TABLE IF EXISTS ${Book.TABLE};")
         db?.execSQL("DROP TABLE IF EXISTS ${OrderBook.TABLE};")

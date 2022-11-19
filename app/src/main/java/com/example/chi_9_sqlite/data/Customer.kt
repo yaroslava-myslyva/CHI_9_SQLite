@@ -1,6 +1,6 @@
 package com.example.chi_9_sqlite.data
 
-data class Client(
+data class Customer(
     val id: Int,
     val name: String
 ) {

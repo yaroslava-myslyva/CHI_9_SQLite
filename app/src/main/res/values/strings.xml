@@ -3,4 +3,6 @@
     <string name="create">create</string>
     <string name="update">update</string>
     <string name="delete_all">delete all</string>
+    <string name="view_customers">view customers</string>
+    <string name="tv_name_customers_list">Customers list</string>
 </resources>
