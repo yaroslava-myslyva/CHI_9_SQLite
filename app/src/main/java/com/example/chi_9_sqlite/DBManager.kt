@@ -71,7 +71,7 @@ class DBManager(context: Context) {
         db.close()
     }
 
-    fun fetchCustomers(): List<Customer> {
+    fun fetchCustomers(version: Int): List<Customer> {
         val db = dataBaseHelper.readableDatabase
         val cursor = db.query(Customer.TABLE, null, null, null, null, null, null)
 
@@ -84,7 +84,15 @@ class DBManager(context: Context) {
 
                 index = cursor.getColumnIndex(Customer.NAME)
                 val name = cursor.getString(index)
-                customers.add(Customer(id, name))
+
+                if(version == 1){
+                    customers.add(Customer(id, name))
+                }else{
+                    index = cursor.getColumnIndex(Customer.AGE)
+                    val age = cursor.getInt(index)
+                    customers.add(Customer(id, name, age))
+                }
+
             } while (cursor.moveToNext())
 
             cursor.close()
@@ -152,7 +160,7 @@ class DBManager(context: Context) {
         db.delete(Customer.TABLE, null, null)
         db.delete(Order.TABLE, null, null)
         db.delete(OrderBook.TABLE, null, null)
-        db?.execSQL("DROP TRIGGER IF EXISTS ${DataBaseHelper.TRIGGER_NAME}")
+        db?.execSQL("DROP TRIGGER IF EXISTS $TRIGGER_NAME")
         db.close()
     }
 }

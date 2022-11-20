@@ -2,6 +2,7 @@ package com.example.chi_9_sqlite
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chi_9_sqlite.data.Book
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private var dbManager: DBManager? = null
     private var customerAdapter :CustomerAdapter? = null
     private var cbAdapter :JoinedDataAdapter? = null
+    var version = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setButtonsOnClickListeners() {
         binding.buttonCreate.setOnClickListener {
+            version = 1
             dbManager?.dataBaseHelper?.onUpgrade(dbManager?.dataBaseHelper?.writableDatabase, 1, 1)
             dbManager?.insertBooks(
                 listOf(
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.buttonSetupCustomers.setOnClickListener {
-            setupCustomers(1)
+            setupCustomers(version)
         }
 
         binding.buttonDeleteAll.setOnClickListener {
@@ -79,12 +82,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.buttonMigrate.setOnClickListener {
+            version = 2
             dbManager?.dataBaseHelper?.onUpgrade(dbManager?.dataBaseHelper?.writableDatabase, 1, 2)
             dbManager?.insertCustomers(listOf(
                 Customer(2, "Sania")
             ))
-            setupCustomers(2)
-
         }
 
         binding.buttonAddTrigger.setOnClickListener {
@@ -95,7 +97,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupCustomers(version :Int){
         binding.tvNameCustomersList.visibility = View.VISIBLE
         customerAdapter = CustomerAdapter()
-        dbManager?.fetchCustomers()?.let {
+        dbManager?.fetchCustomers(version)?.let {
+            Log.d("ttt", "recycler $it")
             customerAdapter?.setupCustomersList(it)
             customerAdapter?.updateVersion(version)
             binding.customersList.layoutManager = LinearLayoutManager(this)
