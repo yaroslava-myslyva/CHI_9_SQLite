@@ -41,15 +41,33 @@ class DataBaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS ${Customer.TABLE};")
-        db?.execSQL("DROP TABLE IF EXISTS ${Order.TABLE};")
-        db?.execSQL("DROP TABLE IF EXISTS ${Book.TABLE};")
-        db?.execSQL("DROP TABLE IF EXISTS ${OrderBook.TABLE};")
-        onCreate(db)
+        when(newVersion){
+            DB_VERSION -> {
+                db?.execSQL("DROP TABLE IF EXISTS ${Customer.TABLE};")
+                db?.execSQL("DROP TABLE IF EXISTS ${Order.TABLE};")
+                db?.execSQL("DROP TABLE IF EXISTS ${Book.TABLE};")
+                db?.execSQL("DROP TABLE IF EXISTS ${OrderBook.TABLE};")
+                db?.execSQL("DROP TRIGGER IF EXISTS $TRIGGER_NAME")
+                onCreate(db)
+            }
+            DB_VERSION_RELEASE_1_1 -> {
+                migrate(db)
+            }
+        }
+
+    }
+
+    //ALTER TABLE courses ADD credit_hours INT NOT NULL;
+    private fun migrate(db: SQLiteDatabase?) {
+        val alterCustomerSql = "ALTER TABLE ${Customer.TABLE} " +
+                "ADD ${Customer.AGE} INTEGER"
+        db?.execSQL(alterCustomerSql)
     }
 
     companion object {
         private const val DB_NAME = "myDataBase"
         private const val DB_VERSION = 1
+        private const val DB_VERSION_RELEASE_1_1 = 2
+        const val TRIGGER_NAME = "my_trigger"
     }
 }

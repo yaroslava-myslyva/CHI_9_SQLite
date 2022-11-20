@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chi_9_sqlite.data.Customer
 import com.example.chi_9_sqlite.data.CustomersBooks
-import com.example.chi_9_sqlite.databinding.CustomerItemFirstBinding
 import com.example.chi_9_sqlite.databinding.CustomersBooksItemBinding
 
 class JoinedDataAdapter : RecyclerView.Adapter<JoinedDataAdapter.JoinedDataHolder>() {

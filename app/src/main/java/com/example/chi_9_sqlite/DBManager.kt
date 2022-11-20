@@ -3,6 +3,7 @@ package com.example.chi_9_sqlite
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
+import com.example.chi_9_sqlite.DataBaseHelper.Companion.TRIGGER_NAME
 import com.example.chi_9_sqlite.data.Book
 import com.example.chi_9_sqlite.data.Customer
 import com.example.chi_9_sqlite.data.Order
@@ -42,7 +43,7 @@ class DBManager(context: Context) {
         db.close()
     }
 
-    fun insertClients(customers: List<Customer>) {
+    fun insertCustomers(customers: List<Customer>) {
         val db = dataBaseHelper.writableDatabase
         val cv = ContentValues()
         customers.forEach { client ->
@@ -70,7 +71,7 @@ class DBManager(context: Context) {
         db.close()
     }
 
-    fun fetchFilms(): List<Customer> {
+    fun fetchCustomers(): List<Customer> {
         val db = dataBaseHelper.readableDatabase
         val cursor = db.query(Customer.TABLE, null, null, null, null, null, null)
 
@@ -131,13 +132,27 @@ class DBManager(context: Context) {
         db.close()
         return emptyList()
     }
+
+    //CREATE TRIGGER my_trigger AFTER  INSERT  ON Customers
+    //FOR EACH ROW
+    //BEGIN
+    //UPDATE Customers SET age = 0;
+    //END;
+
+    fun createTrigger(){
+        val db = dataBaseHelper.writableDatabase
+        val createTriggerQuery = "CREATE TRIGGER $TRIGGER_NAME AFTER INSERT ON ${Customer.TABLE} " +
+                "FOR EACH ROW BEGIN UPDATE ${Customer.TABLE} set ${Customer.AGE} = 0; END;"
+        db?.execSQL(createTriggerQuery)
+    }
+
     fun deleteAll() {
         val db = dataBaseHelper.writableDatabase
-        val a = db.delete(Book.TABLE, null, null)
-        Log.d("ttt", "deleteAll - $a")
+        db.delete(Book.TABLE, null, null)
         db.delete(Customer.TABLE, null, null)
         db.delete(Order.TABLE, null, null)
         db.delete(OrderBook.TABLE, null, null)
+        db?.execSQL("DROP TRIGGER IF EXISTS ${DataBaseHelper.TRIGGER_NAME}")
         db.close()
     }
 }

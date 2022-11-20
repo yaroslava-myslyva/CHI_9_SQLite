@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                     Book(3, "Kobzar", "Taras Shevchenko")
                 )
             )
-            dbManager?.insertClients(
+            dbManager?.insertCustomers(
                 listOf(
                     Customer(1, "Nadija")
                 )
@@ -56,29 +56,55 @@ class MainActivity : AppCompatActivity() {
            )
         }
 
-        binding.buttonSetupRecyclerView.setOnClickListener {
-            setupRecyclerView()
+        binding.buttonSetupCustomers.setOnClickListener {
+            setupCustomers(1)
         }
 
         binding.buttonDeleteAll.setOnClickListener {
             dbManager?.deleteAll()
+
             binding.tvNameCustomersList.visibility = View.GONE
             binding.customersList.visibility = View.GONE
             customerAdapter?.setupCustomersList(emptyList())
             binding.customersList.adapter = customerAdapter
+
+            binding.tvNameCbList.visibility = View.GONE
+            binding.customersBooksList.visibility = View.GONE
+            cbAdapter?.setupJoinedDataList(emptyList())
+            binding.customersBooksList.adapter = cbAdapter
+        }
+
+        binding.buttonJoin.setOnClickListener {
+            setupJoinedRecyclerview()
+        }
+
+        binding.buttonMigrate.setOnClickListener {
+            dbManager?.dataBaseHelper?.onUpgrade(dbManager?.dataBaseHelper?.writableDatabase, 1, 2)
+            dbManager?.insertCustomers(listOf(
+                Customer(2, "Sania")
+            ))
+            setupCustomers(2)
+
+        }
+
+        binding.buttonAddTrigger.setOnClickListener {
+            dbManager?.createTrigger()
         }
     }
 
-    private fun setupRecyclerView(){
+    private fun setupCustomers(version :Int){
         binding.tvNameCustomersList.visibility = View.VISIBLE
         customerAdapter = CustomerAdapter()
-        dbManager?.fetchFilms()?.let {
+        dbManager?.fetchCustomers()?.let {
             customerAdapter?.setupCustomersList(it)
+            customerAdapter?.updateVersion(version)
             binding.customersList.layoutManager = LinearLayoutManager(this)
             binding.customersList.adapter = customerAdapter
             binding.customersList.visibility = View.VISIBLE
         }
+    }
 
+    private fun setupJoinedRecyclerview(){
         binding.tvNameCbList.visibility = View.VISIBLE
         cbAdapter = JoinedDataAdapter()
         dbManager?.fetchJoinedData()?.let {
@@ -87,6 +113,5 @@ class MainActivity : AppCompatActivity() {
             binding.customersBooksList.adapter = cbAdapter
             binding.customersBooksList.visibility = View.VISIBLE
         }
-
     }
 }

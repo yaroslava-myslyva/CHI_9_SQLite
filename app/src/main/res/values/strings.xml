@@ -6,4 +6,7 @@
     <string name="view_customers">view customers</string>
     <string name="tv_name_customers_list">Customers list</string>
     <string name="tv_name_cb_list">Customer\'s books list</string>
+    <string name="join">join</string>
+    <string name="migrate">migrate</string>
+    <string name="add_trigger">add trigger</string>
 </resources>
