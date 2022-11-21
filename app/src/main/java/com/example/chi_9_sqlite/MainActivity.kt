@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             dbManager?.insertBooks(
                 listOf(
                     Book(1, "Bible", "Good"),
-                    Book(2, "Hiba revut' voly", "Ivan Nechyj-Levytskyj"),
+                    Book(2, "Hiba revut' voly...", "Panas Myrnyj"),
                     Book(3, "Kobzar", "Taras Shevchenko")
                 )
             )
