@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonMigrate.setOnClickListener {
             version = 2
             dbManager?.dataBaseHelper?.onUpgrade(dbManager?.dataBaseHelper?.writableDatabase, 1, 2)
+            dbManager = DBManager(this)
             it.isClickable = false
         }
 
