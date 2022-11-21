@@ -54,10 +54,8 @@ class DataBaseHelper(context: Context) : SQLiteOpenHelper(
                 migrate(db)
             }
         }
-
     }
 
-    //ALTER TABLE courses ADD credit_hours INT NOT NULL;
     private fun migrate(db: SQLiteDatabase?) {
         val alterCustomerSql = "ALTER TABLE ${Customer.TABLE} " +
                 "ADD ${Customer.AGE} INTEGER"

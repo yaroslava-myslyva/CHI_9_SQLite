@@ -4,54 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FBFEC4"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tv_name_customers_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_name_customers_list"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/customers_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/customers_list"
+    <LinearLayout
+        android:id="@+id/layout_customers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/tv_name_cb_list"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/layout_customers_books"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_name_customers_list" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_name_cb_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_name_cb_list"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/customers_books_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/customers_list" />
+        <TextView
+            android:id="@+id/tv_name_customers_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F9C483"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="@string/tv_name_customers_list"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/customers_books_list"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/customers_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FCE2A4"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_customers_books"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_name_cb_list" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_customers">
+
+        <TextView
+            android:id="@+id/tv_name_cb_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F9C483"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="@string/tv_name_cb_list"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/customers_books_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FCE2A4"/>
+    </LinearLayout>
+
 
     <GridLayout
         android:id="@+id/buttons"
@@ -61,12 +77,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customers_books_list">
+        app:layout_constraintTop_toBottomOf="@+id/layout_customers_books">
 
         <Button
             android:id="@+id/button_create"
-            android:layout_height="wrap_content"
             android:layout_width="150dp"
+            android:layout_height="wrap_content"
 
             android:layout_columnWeight="1"
             android:layout_gravity="center"
@@ -74,8 +90,8 @@
 
         <Button
             android:id="@+id/button_join"
-            android:layout_height="wrap_content"
             android:layout_width="150dp"
+            android:layout_height="wrap_content"
 
             android:layout_columnWeight="1"
             android:layout_gravity="center"
@@ -83,8 +99,8 @@
 
         <Button
             android:id="@+id/button_setup_customers"
-            android:layout_height="wrap_content"
             android:layout_width="150dp"
+            android:layout_height="wrap_content"
 
             android:layout_columnWeight="1"
             android:layout_gravity="center"
@@ -92,16 +108,16 @@
 
         <Button
             android:id="@+id/button_migrate"
-            android:layout_height="wrap_content"
             android:layout_width="150dp"
+            android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="center"
             android:text="@string/migrate" />
 
         <Button
             android:id="@+id/button_delete_all"
-            android:layout_height="wrap_content"
             android:layout_width="150dp"
+            android:layout_height="wrap_content"
 
             android:layout_columnWeight="1"
             android:layout_gravity="center"
@@ -109,12 +125,20 @@
 
         <Button
             android:id="@+id/button_add_trigger"
-            android:layout_height="wrap_content"
             android:layout_width="150dp"
+            android:layout_height="wrap_content"
 
             android:layout_columnWeight="1"
             android:layout_gravity="center"
             android:text="@string/add_trigger" />
+
+        <Button
+            android:id="@+id/button_add_new_customer"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:text="@string/add_new_customer" />
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

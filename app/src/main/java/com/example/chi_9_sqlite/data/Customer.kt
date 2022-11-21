@@ -3,7 +3,7 @@ package com.example.chi_9_sqlite.data
 data class Customer(
     val id: Int,
     val name: String,
-    val age :Int? = null
+    val age :Int? = 0
 ) {
     companion object {
 

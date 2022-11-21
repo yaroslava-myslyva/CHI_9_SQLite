@@ -87,7 +87,7 @@ class DBManager(context: Context) {
 
                 if(version == 1){
                     customers.add(Customer(id, name))
-                }else{
+                } else {
                     index = cursor.getColumnIndex(Customer.AGE)
                     val age = cursor.getInt(index)
                     customers.add(Customer(id, name, age))
@@ -102,11 +102,6 @@ class DBManager(context: Context) {
         db.close()
         return emptyList()
     }
-
-    //SELECT name, title, author FROM Books b
-    // INNER JOIN OrderBook ob ON b._id = ob._id_book
-    // INNER JOIN Orders o ON o._id = ob._id_order
-    // INNER JOIN Clients c ON o.client = c._id
 
     fun fetchJoinedData() :List<CustomersBooks>{
         val db = dataBaseHelper.readableDatabase
@@ -141,16 +136,10 @@ class DBManager(context: Context) {
         return emptyList()
     }
 
-    //CREATE TRIGGER my_trigger AFTER  INSERT  ON Customers
-    //FOR EACH ROW
-    //BEGIN
-    //UPDATE Customers SET age = 0;
-    //END;
-
     fun createTrigger(){
         val db = dataBaseHelper.writableDatabase
         val createTriggerQuery = "CREATE TRIGGER $TRIGGER_NAME AFTER INSERT ON ${Customer.TABLE} " +
-                "FOR EACH ROW BEGIN UPDATE ${Customer.TABLE} set ${Customer.AGE} = 0; END;"
+                "FOR EACH ROW BEGIN UPDATE ${Customer.TABLE} set ${Customer.AGE} = 18; END;"
         db?.execSQL(createTriggerQuery)
     }
 
